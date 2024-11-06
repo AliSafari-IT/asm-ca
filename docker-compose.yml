@@ -1,0 +1,5 @@
+services:
+  webapp:
+    environment:
+      - EmailSettings__Password
+      - Jwt__Key
