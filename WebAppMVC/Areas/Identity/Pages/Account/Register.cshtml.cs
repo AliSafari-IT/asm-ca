@@ -69,7 +69,7 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new AppUser {  Email = Input.Email, UserName = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
+                var user = new AppUser {  Email = Input.Email, UserName = Input.Email};
                
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
