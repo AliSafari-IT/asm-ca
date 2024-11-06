@@ -1,8 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using WebAppMVC.Areas.Identity.Data;
 
 namespace WebAppMVC.Areas.Identity.Pages.Account
@@ -11,19 +16,23 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailSender _emailSender;
+        private readonly ILogger<RegisterModel> _logger;
 
-        public RegisterModel(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public RegisterModel(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailSender emailSender, ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
+            _logger = logger;
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
-        public string ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; } = "~/";
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public IList<AuthenticationScheme> ExternalLogins { get; set; } = new List<AuthenticationScheme>();
 
         public class InputModel
         {
@@ -50,14 +59,11 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Last Name is required.")]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
-
-            // New property added
         }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            ReturnUrl = returnUrl;
+            ReturnUrl = returnUrl ?? "~/";
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -69,15 +75,32 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new AppUser {  Email = Input.Email, UserName = Input.Email};
-               
+                var user = new AppUser
+                {
+                    Email = Input.Email,
+                    UserName = Input.Email
+                };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    // Generate email confirmation token
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { userId = user.Id, code = code },
+                        protocol: Request.Scheme);
+
+                    // Send email confirmation link
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{callbackUrl}'>clicking here</a>.");
+
+                    _logger.LogInformation("User registered and confirmation email sent.");
+
+                    // Redirect to the RegisterConfirmation page
+                    return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                 }
 
                 foreach (var error in result.Errors)

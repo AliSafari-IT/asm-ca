@@ -19,20 +19,9 @@ namespace WebAppMVC
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //var dataConnectionString = builder.Configuration.GetConnectionString("WebAppMVCContextConnection") ?? throw new InvalidOperationException("Connection string 'WebAppMVCContextConnection' not found.");
-            var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
             //builder.Services.AddDbContext<WebAppMVCContext>(options => options.UseSqlite(dataConnectionString));
             // Add the database context
-            builder.Services.AddDbContext<WebAppMVCContext>(options =>
-                options.UseMySql(dbConnectionString,
-                ServerVersion.AutoDetect(dbConnectionString),
-                mySqlOptions => mySqlOptions.EnableRetryOnFailure()));
-
-            builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<WebAppMVCContext>();
-
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            GetConfigServices.ConfigureServices(builder);
 
             var app = builder.Build();
 

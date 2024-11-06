@@ -6,6 +6,7 @@
 
 <header>
     <h1>@ViewData["Title"]</h1>
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
     @{
         if (User.Identity?.IsAuthenticated ?? false)
         {
