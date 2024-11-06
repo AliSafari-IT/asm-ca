@@ -9,6 +9,14 @@
     }
   },
   "profiles": {
+    "WebAppMVC": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5146;https://localhost:44337",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,

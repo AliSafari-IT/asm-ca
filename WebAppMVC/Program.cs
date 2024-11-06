@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using WebAppMVC.Configurations;
 
 
 namespace WebAppMVC
@@ -23,6 +24,15 @@ namespace WebAppMVC
             // Add the database context
             GetConfigServices.ConfigureServices(builder);
 
+            // development setup
+            ConfigureEnvironment.Configure(builder);
+
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+
+            // Add cors policy
+            ConfigureCors.AddPolicy(builder);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -33,12 +43,14 @@ namespace WebAppMVC
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            ConfigureCors.UseCors(app);
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllers();
             app.MapRazorPages();
             app.Run();
         }

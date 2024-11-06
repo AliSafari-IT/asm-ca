@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Areas.Identity.Data;
 
+namespace WebAppMVC.Configurations;
 public class GetConfigServices
 {
 
