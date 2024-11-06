@@ -2,6 +2,8 @@
   "name": "asm-ca",
   "private": true,
   "version": "1.0.0",
+  "license": "MIT",
+  "proxy": "http://localhost:5146",
   "scripts": {
     "dev": "concurrently \"yarn workspace techdocs dev\" \"dotnet run --project WebAppMVC/WebAppMVC.csproj\""
   },

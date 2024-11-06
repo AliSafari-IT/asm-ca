@@ -46,12 +46,21 @@ namespace WebAppMVC
             ConfigureCors.UseCors(app);
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapControllers();
+                    endpoints.MapRazorPages();
+                });
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapControllers();
-            app.MapRazorPages();
+
+            // app.MapControllerRoute(
+            //     name: "default",
+            //     pattern: "{controller=Home}/{action=Index}/{id?}");
+            // app.MapControllers();
+            // app.MapRazorPages();
             app.Run();
         }
     }
