@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>10</x>
+      <y>0</y>
+      <w>790</w>
+      <h>850</h>
+    </coordinates>
+    <panel_attributes>Multi-Frontend frameworks application driven by PHP and Nodejs backend services.
+--
+bg=#e6e6fa
+layer=-2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>40</x>
+      <y>310</y>
+      <w>740</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>				PHP Backend
+--
+-Microservice for Angular's user dashboard: MS1
+-Microservice for ...
+bg=#ECFFDC
+fg=black
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>40</x>
+      <y>160</y>
+      <w>740</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>React micro-frontends
+fs=16
+--
+- User settings
++ Technical documentation and blogging system
+bg=#add8e6
+fg=black
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>40</x>
+      <y>60</y>
+      <w>740</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Angular micro-frontends
+--
+-User Dashboard
++User Profile
+bg=#e9e4dc
+fg=black
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>20</x>
+      <y>770</y>
+      <w>760</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Note..
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>40</x>
+      <y>440</y>
+      <w>740</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>NodeJs Backend
+--
+-Microservice for React documentation system,
++Microservice for React blogging system.
+bg=#ECFFDC
+fg=black
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

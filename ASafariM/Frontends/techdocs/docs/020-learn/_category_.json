@@ -1,0 +1,8 @@
+{
+  "label": "Learn",
+  "position": 2000,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn basics in programming."
+  }
+}

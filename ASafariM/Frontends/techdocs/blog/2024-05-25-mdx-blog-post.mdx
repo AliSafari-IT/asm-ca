@@ -1,0 +1,154 @@
+---
+slug: manage-submenus-in-react
+title: Managing Submenus in React
+authors: [alisafari]
+tags: [react, typescript, menu, recursion]
+---
+
+:::note
+**One of the challenges in building dynamic web applications is managing menus with an unknown depth of submenus.**
+
+  Consider a scenario where our lab automation system needs to display a hierarchical structure of lab processes, equipment, or data categories. These hierarchies can vary in depth and complexity, making a recursive menu component an ideal solution. Here’s how we can frame this approach within the context of a lab automation app. 
+
+ <!-- truncate --> 
+Traditional static approaches struggle with deeply nested structures, making it challenging to render menus correctly without knowing the depth in advance. This issue often arises in complex applications where menu items are dynamically generated and can have multiple levels of submenus.
+:::
+
+So, to manage an unknown depth of submenus in a React component with TypeScript, we can use a recursive component approach. This method allows the component to render nested submenus dynamically based on the data structure provided. Here’s a step-by-step guide on how to achieve this:
+
+## 1. Define the Data Structure
+
+Assume we have a nested data structure representing the menu and submenus.
+
+```typescript
+interface MenuItem {
+  title: string;
+  submenus?: MenuItem[];
+}
+
+const menuData: MenuItem[] = [
+  {
+    title: "Menu 1",
+    submenus: [
+      {
+        title: "Submenu 1-1",
+        submenus: [{ title: "Submenu 1-1-1" }, { title: "Submenu 1-1-2" }],
+      },
+      { title: "Submenu 1-2" },
+    ],
+  },
+  {
+    title: "Menu 2",
+    submenus: [{ title: "Submenu 2-1" }, { title: "Submenu 2-2" }],
+  },
+];
+```
+
+## 2. Create a Recursive Menu Component
+
+This component will render the menu items and recursively render any submenus.
+
+```typescript
+import React from "react";
+
+interface MenuItemProps {
+  item: MenuItem;
+}
+
+const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
+  return (
+    <li>
+      {item.title}
+      {item.submenus && (
+        <ul>
+          {item.submenus.map((submenu, index) => (
+            <MenuItem key={index} item={submenu} />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+};
+
+interface MenuProps {
+  data: MenuItem[];
+}
+
+const Menu: React.FC<MenuProps> = ({ data }) => {
+  return (
+    <ul>
+      {data.map((item, index) => (
+        <MenuItem key={index} item={item} />
+      ))}
+    </ul>
+  );
+};
+
+export default Menu;
+```
+
+## 3. Render the Menu Component with Data
+
+Use the `Menu` component in our main component and pass the `menuData` as a prop.
+
+```typescript
+import React from "react";
+import Menu from "./Menu"; // Adjust the path based on our file structure
+
+const App: React.FC = () => {
+  return (
+    <div>
+      <h1>Dynamic Menu</h1>
+      <Menu data={menuData} />
+    </div>
+  );
+};
+
+export default App;
+```
+
+## 4. Styling and Enhancements
+
+You can enhance the appearance and behavior of the menu with CSS and additional features like collapsible submenus.
+
+Here’s an example of adding basic CSS to style the menu:
+
+```css
+ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+li {
+  margin: 5px 0;
+}
+```
+
+## 5. Adding Collapsible Submenus
+
+To add collapsible functionality, we can use state to track the open/closed status of submenus.
+
+```typescript
+import React, { useState } from "react";
+
+interface MenuItemProps {
+  item: MenuItem;
+}
+
+const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <li>
+      <div onClick={() => setIsOpen(!isOpen)}>{item.title}</div>
+      {isOpen && item.submenus && (
+        <ul>
+          {item.submenus.map((submenu, index) => (
+            <MenuItem key={index} item={submenu} />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+};
+```

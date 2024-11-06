@@ -1,0 +1,103 @@
+# Existing tags
+facebook:
+  label: Facebook
+  permalink: /facebook
+  description: Facebook tag description
+
+hello:
+  label: Hello
+  permalink: /hello
+  description: Hello tag description
+
+docusaurus:
+  label: Docusaurus
+  permalink: /docusaurus
+  description: Docusaurus tag description
+
+hola:
+  label: Hola
+  permalink: /hola
+  description: Hola tag description
+
+# my tags
+static_site_generator:
+  label: Static Site Generator
+  permalink: /static-site-generator
+  description: Static Site Generator related content
+
+automation:
+  label: Automation
+  permalink: /automation
+  description: Content related to automation
+
+lab_automation:
+  label: Lab Automation
+  permalink: /lab-automation
+  description: Lab automation technologies and trends
+
+technology:
+  label: Technology
+  permalink: /technology
+  description: Technology-related content
+
+data_management:
+  label: Data Management
+  permalink: /data-management
+  description: Content related to data management
+
+future_challenges:
+  label: Future Challenges
+  permalink: /future-challenges
+  description: Discussion on future challenges in various fields
+
+xitechnix:
+  label: Xitechnix
+  permalink: /xitechnix
+  description: Posts related to Xitechnix
+
+programming:
+  label: Programming
+  permalink: /programming
+  description: Programming-related content
+
+styletron_react:
+  label: Styletron React
+  permalink: /styletron-react
+  description: Content about Styletron and React integration
+
+react:
+  label: React
+  permalink: /react
+  description: React framework-related content
+
+typescript:
+  label: TypeScript
+  permalink: /typescript
+  description: TypeScript programming language content
+
+menu:
+  label: Menu
+  permalink: /menu
+  description: Content related to menu design and implementation
+
+recursion:
+  label: Recursion
+  permalink: /recursion
+  description: Discussions and examples on recursion
+
+tech_journey:
+  label: Tech Journey
+  permalink: /tech-journey
+  description: Tech journey content
+
+open_source:
+  label: Open Source
+  permalink: /open-source
+  description: Open source content
+
+scientific:
+  label: Scientific
+  permalink: /scientific
+  description: Scientific content
+  
+# Add new tags here

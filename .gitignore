@@ -5,6 +5,7 @@
 *.env
 *.env.development
 *.env.production
+.envDev
 
 # User-specific files
 *.rsuser

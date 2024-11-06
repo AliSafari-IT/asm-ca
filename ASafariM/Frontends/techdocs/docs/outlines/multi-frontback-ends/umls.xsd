@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="diagram">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="zoom_level" type="xs:string" />
+        <xs:element name="element" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" type="xs:string" />
+              <xs:element name="coordinates">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="x" type="xs:string" />
+                    <xs:element name="y" type="xs:string" />
+                    <xs:element name="w" type="xs:string" />
+                    <xs:element name="h" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="panel_attributes" type="xs:string" />
+              <xs:element name="additional_attributes" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="program" use="required" />
+      <xs:attribute name="version" type="xs:decimal" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
