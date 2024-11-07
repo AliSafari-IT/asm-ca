@@ -1,0 +1,8 @@
+{
+  "label": "Web Glossary",
+  "position": 35000,
+  "link": {
+    "type": "generated-index",
+    "description": "Check out the web glossary used in this documentation."
+  }
+}

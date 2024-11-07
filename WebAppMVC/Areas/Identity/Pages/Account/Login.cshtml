@@ -2,44 +2,66 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "ASafariM | Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <form id="account" method="post">
-            <h2>Use a local account to log in.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" type="email" class="form-control" autocomplete="on" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email" class="form-label">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+<div class="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 md:p-10 relative">
+        <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent to-blue-400 rounded-3xl opacity-20 pointer-events-none"></div>
+
+        <!-- Form Header -->
+        <h1 class="text-3xl font-semibold text-gray-800 text-center mb-6">@ViewData["Title"]</h1>
+        <p class="text-gray-600 text-center mb-8">Welcome back! Please enter your details.</p>
+
+        <form id="account" method="post" class="relative z-10">
+            <div asp-validation-summary="ModelOnly" class="text-red-600 mb-4 text-center"></div>
+
+            <!-- Email Input -->
+            <div class="mb-6">
+                <label asp-for="Input.Email" class="block text-sm font-medium text-gray-600 mb-1">Email Address</label>
+                <div class="flex items-center bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-3 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2.94 2.94a.75.75 0 01.53-.22h13.06a.75.75 0 01.53.22.75.75 0 010 1.06l-6.28 6.28a.75.75 0 01-1.06 0L2.94 3.99a.75.75 0 010-1.05zM15.03 13.28l4.72 4.72a.75.75 0 01-1.06 1.06l-4.72-4.72a7.25 7.25 0 11-9.1-9.1l4.72 4.72a5.75 5.75 0 108.1 8.1z" />
+                    </svg>
+                    <input asp-for="Input.Email" type="email" class="w-full p-3 rounded-lg bg-transparent focus:outline-none" placeholder="name@example.com" />
+                </div>
+                <span asp-validation-for="Input.Email" class="text-red-500 text-sm mt-1"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password" class="form-label">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+            <!-- Password Input -->
+            <div class="mb-6">
+                <label asp-for="Input.Password" class="block text-sm font-medium text-gray-600 mb-1">Password</label>
+                <div class="flex items-center bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-3 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5 8V6a5 5 0 1110 0v2h1a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2h1zm2-2a3 3 0 116 0v2H7V6z" clip-rule="evenodd" />
+                    </svg>
+                    <input asp-for="Input.Password" type="password" class="w-full p-3 rounded-lg bg-transparent focus:outline-none" placeholder="password" />
+                </div>
+                <span asp-validation-for="Input.Password" class="text-red-500 text-sm mt-1"></span>
             </div>
-            <div class="checkbox mb-3">
-                <label asp-for="Input.RememberMe" class="form-label">
-                    <input class="form-check-input" asp-for="Input.RememberMe" />
-                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+
+            <!-- Remember Me -->
+            <div class="flex items-center justify-between mb-6">
+                <label class="flex items-center text-sm text-gray-600">
+                    <input class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" asp-for="Input.RememberMe" />
+                    <span class="ml-2">Remember me</span>
                 </label>
+                <a id="forgot-password" asp-page="./ForgotPassword" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
             </div>
-            <div>
-                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-            </div>
-            <div>
-                <p>
-                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:from-blue-500 hover:to-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Log in
+            </button>
+
+            <!-- Additional Links -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Don’t have an account?
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-blue-600 font-medium hover:underline">Sign up</a>
                 </p>
-                <p>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                </p>
-                <p>
-                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                <p class="text-sm text-gray-600 mt-3">
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="text-blue-600 font-medium hover:underline">Resend email confirmation</a>
                 </p>
             </div>
         </form>

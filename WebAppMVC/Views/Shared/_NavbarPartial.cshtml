@@ -1,0 +1,108 @@
+@using Microsoft.AspNetCore.Identity
+@using WebAppMVC.Areas.Identity.Data
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    var user = ViewData["User"] as string;
+    // Safely get the current view path from ViewContext
+    var currentPath = string.Empty;
+    try
+    {
+        currentPath = ViewContext.HttpContext.Request.Path.Value ?? string.Empty;
+    }
+    catch (Exception ex)
+    {
+        // Log the exception or handle it as necessary
+        Console.WriteLine($"Error retrieving current path: {ex.Message}");
+    }
+}
+<nav class="w-full border-b shadow-md border-gray-200 px-4 py-4 flex items-center justify-between relative">
+    <!-- Left side -->
+    <div class="flex items-center space-x-4">
+        <a href="/" class="flex items-center text-blue-300 no-underline hover:text-teal-600 hover:underline">
+            <img src="~/images/logoT.svg" alt="Brand Logo" class="h-8 w-8 mr-2" />
+            <span class="font-semibold text-xl">ASafariM</span>
+        </a>
+        <a href="//techdocs.asafarim.com"
+            class="hidden sm:inline-block px-3 py-2 rounded-md @(currentPath == "/techdocs" ? "font-bold" : "hover:underline")">
+            Tech Docs
+        </a>
+
+        <a href="http://localhost:3000/projects"
+            class="hidden sm:inline-block px-3 py-2 rounded-md @(currentPath == "/projects" ? "font-bold" : "hover:underline")">
+            Projects
+        </a>
+        <a href="/about"
+            class="hidden sm:inline-block px-3 py-2 rounded-md @(currentPath == "/about" ? "font-bold" : "hover:underline")">
+            About
+        </a>
+        @if (!string.IsNullOrEmpty(user))
+        {
+            <a href="/dashboard"
+                class="hidden sm:inline-block px-3 py-2 rounded-md @(currentPath == "/dashboard" ? "font-bold" : "hover:underline")">
+                Dashboard
+            </a>
+        }
+    </div>
+
+    <!-- Right side -->
+    <div class="hidden sm:flex items-center space-x-4">
+        <a href="/contact"
+            class="hidden sm:inline-block px-3 py-2 rounded-md @(currentPath == "/contact" ? "font-bold" : "hover:underline")">
+            Contact
+        </a>
+        @if (!string.IsNullOrEmpty(user))
+        {
+            <a href="/user-account"
+                class="hidden sm:inline-block px-3 py-2 rounded-md @(currentPath == "/user-account" ? "font-bold" : "hover:underline")">
+                User Profile
+            </a>
+        }
+        <partial name="_AccountComponentPartial" />
+       
+        <partial name="_ToggleThemePartial" />
+    </div>
+
+    <!-- Hamburger Icon for Mobile -->
+    <div class="sm:hidden pr-5">
+        <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden sm:hidden absolute bg-white top-16 left-0 w-full shadow-md">
+        <partial name="_ToggleThemePartial" class="mb-3 absolute left-3 top-5" />
+        <a href="//techdocs.asafarim.com"
+            class="block px-3 py-1 text-sm rounded-md @(currentPath == "/techdocs" ? "font-bold" : "")">
+            <span>Tech Docs</span>
+            <i class="ml-2 -mb-2"></i> <!-- Replace with the actual icon for Tech Docs -->
+        </a>
+        <a href="/projects" class="block px-3 py-1 text-sm rounded-md @(currentPath == "/projects" ? "font-bold" : "")">
+            <span>Projects</span>
+            <i class="ml-2 -mb-2"></i> <!-- Replace with the actual icon for Projects -->
+        </a>
+        <a href="/about" class="block px-3 py-1 text-sm rounded-md @(currentPath == "/about" ? "font-bold" : "")">
+            <span>About</span>
+            <i class="ml-2 -mb-2"></i> <!-- Replace with the actual icon for About -->
+        </a>
+        <a href="/contact" class="block px-3 py-1 text-sm rounded-md @(currentPath == "/contact" ? "font-bold" : "")">
+            <span>Contact</span>
+            <i class="ml-2 -mb-2"></i> <!-- Replace with the actual icon for Contact -->
+        </a>
+
+        @if (!string.IsNullOrEmpty(user))
+        {
+            <a href="/dashboard"
+                class="block px-3 py-1 text-sm rounded-md @(currentPath == "/dashboard" ? "font-bold" : "")">
+                <span>Dashboard</span>
+                <i class="ml-2 -mb-2"></i> <!-- Replace with the actual icon for Dashboard -->
+            </a>
+        }
+
+        <partial name="_AccountComponentPartial" />
+    </div>
+</nav>
