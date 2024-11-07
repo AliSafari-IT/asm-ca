@@ -15,7 +15,7 @@ export const ContactUs = () => {
   useEffect(() => {
     setLoading(true);
     fetch("http://localhost:5146/api/users", {
-      credentials: 'include', // Include credentials if necessary
+      credentials: 'include', 
     })
       .then((res) => {
         if (!res.ok) {
@@ -34,9 +34,7 @@ export const ContactUs = () => {
       });
   }, []);
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  const handleChange = ({ target: { name, value } }) => {
     if (name === "name") setName(value);
     if (name === "email") setEmail(value);
     if (name === "message") setMessage(value);
@@ -85,20 +83,6 @@ export const ContactUs = () => {
       <div className="flex flex-col items-center justify-center p-5 min-h-screen">
         <div className="p-4 rounded-lg shadow-md w-full max-w-xl text-center mb-5">
           <h1 className="text-3xl font-bold info p-3 rounded-lg">Contact Us</h1>
-          <p className="text-lg font-semibold">Current users: {users.length}</p>
-          <div>
-            <p className="text-lg font-semibold">Users:</p>
-            {error && <p className="text-red-500">Error fetching users.</p>}
-            {loading && <LoadingIcon />} 
-            {users.map((user, index) => (
-              <ul key={index}>
-                <li>
-                  <span>{user.userName}</span> {' → '}
-                  <span>{user.emailConfirmed ? 'Confirmed' : 'Not Confirmed'}</span>
-                </li>
-              </ul>
-            ))}
-          </div>
           <p className="text-lg font-semibold">Send us a message</p>
         </div>
         <form
@@ -143,7 +127,7 @@ export const ContactUs = () => {
 
           <div className="text-center">
             <input
-              className="w-full py-3 bg-blue-500 font-semibold rounded-md hover:bg-blue-600 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="w-1/3 float-right  py-3 bg-blue-500 font-semibold rounded-md hover:bg-blue-600 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-200"
               type="submit"
               value="Send"
             />
