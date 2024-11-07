@@ -20,6 +20,9 @@ namespace WebAppMVC
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Add session services
+            ConfigureSessions.Configure(builder);
+
             //builder.Services.AddDbContext<WebAppMVCContext>(options => options.UseSqlite(dataConnectionString));
             // Add the database context
             GetConfigServices.ConfigureServices(builder);
@@ -33,6 +36,7 @@ namespace WebAppMVC
             // Add cors policy
             ConfigureCors.AddPolicy(builder);
 
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -44,6 +48,7 @@ namespace WebAppMVC
 
             app.UseRouting();
             ConfigureCors.UseCors(app);
+            ConfigureSessions.UseSessions(app);
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

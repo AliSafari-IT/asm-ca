@@ -15,6 +15,9 @@ namespace WebAppMVC.Controllers
 
         public IActionResult Index()
         {
+            // Retrieve user information from session and store it in ViewData
+            var user = HttpContext.Session.GetString("User");
+            ViewData["User"] = user;            
             return View();
         }
 

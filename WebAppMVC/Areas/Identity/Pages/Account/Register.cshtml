@@ -1,57 +1,81 @@
 ﻿@page
 @model RegisterModel
+
 @{
     ViewData["Title"] = "Register";
 }
+<div class="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 md:p-10">
+        <!-- Form Header -->
+        <h1 class="text-3xl font-semibold text-gray-800 text-center mb-6">@ViewData["Title"]</h1>
+        <p class="text-gray-600 text-center mb-4">Create a new account</p>
+        <hr class="mb-8" />
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-6 offset-md-3">       
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div asp-validation-summary="ModelOnly" class="text-red-600 mb-4 text-center" role="alert"></div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" required />
-                <label asp-for="Input.FirstName">First Name</label>
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            <!-- First Name -->
+            <div class="mb-4">
+                <label asp-for="Input.FirstName" class="block text-sm font-medium text-gray-600">First Name</label>
+                <input asp-for="Input.FirstName"
+                    class="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="First Name" required />
+                <span asp-validation-for="Input.FirstName" class="text-red-500 text-sm mt-1"></span>
             </div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" required />
-                <label asp-for="Input.LastName">Last Name</label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            <!-- Last Name -->
+            <div class="mb-4">
+                <label asp-for="Input.LastName" class="block text-sm font-medium text-gray-600">Last Name</label>
+                <input asp-for="Input.LastName"
+                    class="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Last Name" required />
+                <span asp-validation-for="Input.LastName" class="text-red-500 text-sm mt-1"></span>
             </div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" required />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            <!-- Email -->
+            <div class="mb-4">
+                <label asp-for="Input.Email" class="block text-sm font-medium text-gray-600">Email</label>
+                <input asp-for="Input.Email" type="email"
+                    class="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="name@example.com" required />
+                <span asp-validation-for="Input.Email" class="text-red-500 text-sm mt-1"></span>
             </div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" placeholder="Password" required />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <!-- Password -->
+            <div class="mb-4">
+                <label asp-for="Input.Password" class="block text-sm font-medium text-gray-600">Password</label>
+                <input asp-for="Input.Password" type="password"
+                    class="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Password" required />
+                <span asp-validation-for="Input.Password" class="text-red-500 text-sm mt-1"></span>
             </div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" required />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            <!-- Confirm Password -->
+            <div class="mb-4">
+                <label asp-for="Input.ConfirmPassword" class="block text-sm font-medium text-gray-600">Confirm
+                    Password</label>
+                <input asp-for="Input.ConfirmPassword" type="password"
+                    class="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Confirm Password" required />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-red-500 text-sm mt-1"></span>
             </div>
-            <hr />
-            <div class="d-flex justify-content-between">
-                <button type="reset" class="btn btn-secondary">Reset</button>
-                <button type="submit" class="btn btn-primary">Register</button>
+
+            <hr class="mb-6" />
+
+            <!-- Form Buttons -->
+            <div class="flex justify-between">
+                <button type="reset"
+                    class="py-2 px-4 bg-gray-200 text-gray-700 font-semibold rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                    Reset
+                </button>
+                <button type="submit"
+                    class="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Register
+                </button>
             </div>
         </form>
     </div>
-
 </div>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

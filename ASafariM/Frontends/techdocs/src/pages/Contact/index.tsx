@@ -54,7 +54,7 @@ export const ContactUs = () => {
           setEmail("");
           setMessage("");
         },
-        (error) => {
+        (error) => { 
           console.error("Email send failed...", error.text);
           alert("An error occurred, Please try again.");
         }

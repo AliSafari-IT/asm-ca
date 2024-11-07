@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using WebAppMVC.Areas.Identity.Data;
 
+
 namespace WebAppMVC.Configurations;
+
 public class GetConfigServices
 {
 
@@ -10,7 +14,6 @@ public class GetConfigServices
         var services = builder.Services;
         //var dataConnectionString = builder.Configuration.GetConnectionString("WebAppMVCContextConnection") ?? throw new InvalidOperationException("Connection string 'WebAppMVCContextConnection' not found.");
         var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
 
         services.AddDbContext<WebAppMVCContext>(options =>
      options.UseMySql(dbConnectionString,
