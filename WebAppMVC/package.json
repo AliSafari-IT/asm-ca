@@ -1,10 +1,14 @@
 {
-  "name": "asafarim-base-layout",
+  "name": "WebAppMVC",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "private": true,
   "scripts": {
-    "build:css": "npx tailwindcss -i ./wwwroot/css/tailwind.scss -o ./wwwroot/css/site.css --minify"
+    "run:razor": "dotnet run --project ./WebAppMVC.csproj",
+    "build": "dotnet build ./WebAppMVC.csproj",
+    "css:build": "npx tailwindcss -i ./wwwroot/css/tailwind.scss -o ./wwwroot/css/site.css --minify",
+    "css:watch": "npx tailwindcss -i ./wwwroot/css/tailwind.scss -o ./wwwroot/css/site.css  --minify --watch",
+    "restart": "bash ./scripts/restart.sh",
+    "clean": "npx rimraf node_modules"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
