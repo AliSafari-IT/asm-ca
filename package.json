@@ -5,19 +5,46 @@
   "license": "MIT",
   "proxy": "http://localhost:5146",
   "scripts": {
-    "dev": "concurrently \"yarn workspace techdocs dev\" \"dotnet run --project WebAppMVC/WebAppMVC.csproj\""
+    "dev": "concurrently \"yarn workspace techdocs dev\" \"dotnet run --project WebAppMVC/WebAppMVC.csproj\"",
+    "run:razor": "dotnet run --project ./WebAppMVC/WebAppMVC.csproj & start http://localhost:5146",
+    "build": "dotnet build ./WebAppMVC/WebAppMVC.csproj",
+    "run:webapp": "dotnet run --project ./WebAppMVC/WebAppMVC.csproj",
+    "build:webapp": "dotnet build ./WebAppMVC/WebAppMVC.csproj",
+    "run:techdocs": "yarn workspace techdocs dev",
+    "build:techdocs": "yarn workspace techdocs build",
+    "css:watch": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/tailwind.scss -o ./WebAppMVC/wwwroot/css/site.css --watch",
+    "css:build": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/tailwind.scss -o ./WebAppMVC/wwwroot/css/site.css --minify",
+    "custom:minify": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/custom.scss -o ./WebAppMVC/wwwroot/css/custom.css --minify",
+    "dotnet:webapp:build": "yarn workspace WebAppMVC build",
+    "dotnet:webapp:run": "yarn workspace WebAppMVC run",
+    "restart:apps": "yarn workspace techdocs restart && yarn workspace WebAppMVC restart",
+    "restart:base": "bash ./scripts/restart.sh",
+    "restart:basejs": "node ./scripts/restart.js",
+    "restart:all": "concurrently \"yarn restart:base\" \"yarn restart:apps\"",
+    "clean": "npx rimraf node_modules"
   },
   "workspaces": [
-    "WebAppMVC/*",
-    "ASafariM/Frontends/*",
+    "WebAppMVC",
     "ASafariM/Frontends/techdocs"
   ],
   "devDependencies": {
     "@types/node": "^22.8.7",
-    "autoprefixer": "^10.4.20",
     "concurrently": "^9.0.1",
+    "rimraf": "^6.0.1",
+    "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
+    "sass": "^1.80.6",
     "tailwindcss": "^3.4.14"
+    
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@1.22.22",
+  "dependencies": {
+    "@docusaurus/core": "^3.6.1",
+    "@docusaurus/module-type-aliases": "^3.6.1",
+    "@docusaurus/plugin-content-blog": "^3.6.1",
+    "@docusaurus/preset-classic": "^3.6.1",
+    "@docusaurus/remark-plugin-npm2yarn": "^3.6.1",
+    "@docusaurus/tsconfig": "^3.6.1",
+    "@docusaurus/types": "^3.6.1"
+  }
 }

@@ -18,6 +18,8 @@ namespace WebAppMVC
     {
         public static void Main(string[] args)
         {
+
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add session services
@@ -43,7 +45,10 @@ namespace WebAppMVC
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -51,21 +56,22 @@ namespace WebAppMVC
             ConfigureSessions.UseSessions(app);
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapControllers();
-                    endpoints.MapRazorPages();
-                });
+            // app.UseEndpoints(endpoints =>
+            //     {
+            //         endpoints.MapControllerRoute(
+            //             name: "default",
+            //             pattern: "{controller=Home}/{action=Index}/{id?}");
+            //         endpoints.MapControllers();
+            //         endpoints.MapRazorPages();
+            //     });
 
 
-            // app.MapControllerRoute(
-            //     name: "default",
-            //     pattern: "{controller=Home}/{action=Index}/{id?}");
-            // app.MapControllers();
-            // app.MapRazorPages();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllers();
+            app.MapRazorPages();
+            app.UseHttpsRedirection();
             app.Run();
         }
     }
