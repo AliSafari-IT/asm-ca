@@ -6,30 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
 
-    <!-- Compiled Tailwind + SCSS file -->
-    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+    <!-- Tailwind CSS -->
+    <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
     <!-- Additional custom CSS -->
-    <link href="~/css/custom.css" rel="stylesheet">
+    <link href="~/css/custom.min.css" rel="stylesheet" asp-append-version="true" />
 </head>
 
-<body class="contain-layout">
-    <header>
+<body class="min-h-screen flex flex-col bg-gray-100 text-gray-900">
+    <!-- Navbar at the top -->
+    <header class="w-full bg-white shadow">
         <partial name="_NavbarPartial" />
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - WebAppMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- Main content fills available space and centers content vertically -->
+    <main role="main" class="flex-grow flex items-center justify-center">
+        @RenderBody()
+    </main>
+
+    <!-- Footer at the bottom -->
+    <footer class="w-full bg-gray-200 py-4 text-center text-sm text-gray-700 border-t">
+        <div class="container mx-auto max-w-4xl">
+            &copy; 2024 - WebAppMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy"
+                class="text-blue-500 hover:underline">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- No Bootstrap or jQuery -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

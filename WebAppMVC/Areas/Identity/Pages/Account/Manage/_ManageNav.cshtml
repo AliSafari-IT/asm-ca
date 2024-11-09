@@ -2,14 +2,47 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
-    }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
-</ul>
+
+<nav class="w-full bg-white shadow-md p-4 rounded-md">
+    <ul class="flex justify-center space-x-4">
+        <li>
+            <a class="inline-block py-2 px-6 rounded-full text-sm font-semibold text-gray-800 transition-colors duration-200 hover:bg-blue-600 hover:text-white @ManageNavPages.IndexNavClass(ViewContext)"
+               id="profile" asp-page="./Index">
+                Profile
+            </a>
+        </li>
+        <li>
+            <a class="inline-block py-2 px-6 rounded-full text-sm font-semibold text-gray-800 transition-colors duration-200 hover:bg-blue-600 hover:text-white @ManageNavPages.EmailNavClass(ViewContext)"
+               id="email" asp-page="./Email">
+                Email
+            </a>
+        </li>
+        <li>
+            <a class="inline-block py-2 px-6 rounded-full text-sm font-semibold text-gray-800 transition-colors duration-200 hover:bg-blue-600 hover:text-white @ManageNavPages.ChangePasswordNavClass(ViewContext)"
+               id="change-password" asp-page="./ChangePassword">
+                Password
+            </a>
+        </li>
+        @if (hasExternalLogins)
+        {
+            <li>
+                <a class="inline-block py-2 px-6 rounded-full text-sm font-semibold text-gray-800 transition-colors duration-200 hover:bg-blue-600 hover:text-white @ManageNavPages.ExternalLoginsNavClass(ViewContext)"
+                   id="external-login" asp-page="./ExternalLogins">
+                    External Logins
+                </a>
+            </li>
+        }
+        <li>
+            <a class="inline-block py-2 px-6 rounded-full text-sm font-semibold text-gray-800 transition-colors duration-200 hover:bg-blue-600 hover:text-white @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"
+               id="two-factor" asp-page="./TwoFactorAuthentication">
+                Two-Factor Authentication
+            </a>
+        </li>
+        <li>
+            <a class="inline-block py-2 px-6 rounded-full text-sm font-semibold text-gray-800 transition-colors duration-200 hover:bg-blue-600 hover:text-white @ManageNavPages.PersonalDataNavClass(ViewContext)"
+               id="personal-data" asp-page="./PersonalData">
+                Personal Data
+            </a>
+        </li>
+    </ul>
+</nav>
