@@ -27,6 +27,10 @@ export const ContactUs = () => {
         const data = await response.json();
         console.log("Logged-in user details: ", data);
         setLoggedInUser(data);
+          // Set the email field if the fetched userName is a valid email
+          if (validateEmail(data.userName)) {
+            setEmail(data.userName);
+          }
 
         // Fetch the user's previous message count
         if (data && data.userName) {
@@ -44,6 +48,13 @@ export const ContactUs = () => {
       fetchLoggedInUser();
     }
   }, [loggedInUser]);
+
+
+  // Utility function to validate email
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
