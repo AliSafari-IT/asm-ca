@@ -6,17 +6,9 @@
   "proxy": "http://localhost:5146",
   "scripts": {
     "dev": "concurrently \"yarn workspace techdocs dev\" \"dotnet run --project WebAppMVC/WebAppMVC.csproj\"",
-    "run:razor": "dotnet run --project ./WebAppMVC/WebAppMVC.csproj & start http://localhost:5146",
-    "build": "dotnet build ./WebAppMVC/WebAppMVC.csproj",
-    "run:webapp": "dotnet run --project ./WebAppMVC/WebAppMVC.csproj",
-    "build:webapp": "dotnet build ./WebAppMVC/WebAppMVC.csproj",
-    "run:techdocs": "yarn workspace techdocs dev",
-    "build:techdocs": "yarn workspace techdocs build",
-    "css:watch": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/tailwind.scss -o ./WebAppMVC/wwwroot/css/site.css --watch",
-    "css:build": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/tailwind.scss -o ./WebAppMVC/wwwroot/css/site.css --minify",
-    "custom:minify": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/custom.scss -o ./WebAppMVC/wwwroot/css/custom.css --minify",
-    "dotnet:webapp:build": "yarn workspace WebAppMVC build",
-    "dotnet:webapp:run": "yarn workspace WebAppMVC run",
+    "tailwind:watch": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/tailwind.scss -o ./WebAppMVC/wwwroot/css/site.css --watch",
+    "custom:watch": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/custom.scss -o ./WebAppMVC/wwwroot/css/custom.css --watch",
+    "css:concurrently": "concurrently --names \"TAILWIND,CUSTOM\" \"yarn tailwind:watch\" \"yarn custom:watch\"",
     "restart:apps": "yarn workspace techdocs restart && yarn workspace WebAppMVC restart",
     "restart:base": "bash ./scripts/restart.sh",
     "restart:basejs": "node ./scripts/restart.js",
@@ -35,7 +27,6 @@
     "postcss": "^8.4.47",
     "sass": "^1.80.6",
     "tailwindcss": "^3.4.14"
-    
   },
   "packageManager": "yarn@1.22.22",
   "dependencies": {
