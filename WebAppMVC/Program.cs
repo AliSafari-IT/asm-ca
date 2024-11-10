@@ -33,10 +33,13 @@ namespace WebAppMVC
             ConfigureEnvironment.Configure(builder);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();     
 
             // Add cors policy
             ConfigureCors.AddPolicy(builder);
+
+            // Add cookie settings
+            CookieSettings.Configure(builder);
 
 
             var app = builder.Build();
