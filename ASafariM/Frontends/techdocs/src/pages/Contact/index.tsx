@@ -3,47 +3,73 @@ import emailjs from "@emailjs/browser";
 import Layout from "@theme/Layout";
 
 export const ContactUs = () => {
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [previousMessagesCount, setPreviousMessagesCount] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const form = useRef(null);
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [users, setUsers] = useState([]);
+  const form = useRef();
 
   useEffect(() => {
-    setLoading(true);
-    fetch("http://localhost:5146/api/users")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+    // Fetch the logged-in user details from the backend
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await fetch("https://localhost:44337/api/users/me", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Add this line to send cookies with the request
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return res.json();
-      })
-      .then((data) => {
-        setUsers(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-        setError(true);
-        setLoading(false);
-      });
-  }, []);
+        const data = await response.json();
+        console.log("Logged-in user details: ", data);
+        setLoggedInUser(data);
+          // Set the email field if the fetched userName is a valid email
+          if (validateEmail(data.userName)) {
+            setEmail(data.userName);
+          }
+
+        // Fetch the user's previous message count
+        if (data && data.userName) {
+          const messagesResponse = await fetch(`https://localhost:44337/api/users/${data.userName}/messages`);
+          if (messagesResponse.ok) {
+            const count = await messagesResponse.json();
+            setPreviousMessagesCount(count);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching logged-in user or message count:", error);
+      }
+    };
+    if (loggedInUser === null) {
+      fetchLoggedInUser();
+    }
+  }, [loggedInUser]);
+
+
+  // Utility function to validate email
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleChange = (e) => {
-    const { name: fieldName, value } = e.target;
-    if (fieldName === "name") setName(value);
-    if (fieldName === "email") setEmail(value);
-    if (fieldName === "message") setMessage(value);
+    const { name, value } = e.target;
+    if (name === "name") setName(value);
+    if (name === "email") setEmail(value);
+    if (name === "message") setMessage(value);
   };
 
   const sendEmail = (e) => {
     e.preventDefault();
 
     emailjs
-      .sendForm("service_9m1uuup", "template_2ie8whg", form.current, "vVlEiwNEj0k6uzMt3")
+      .sendForm("service_9m1uuup", "template_2ie8whg", form.current, {
+        publicKey: "vVlEiwNEj0k6uzMt3",
+      })
       .then(
         () => {
           alert("Message Sent, We will get back to you shortly!");
@@ -59,71 +85,65 @@ export const ContactUs = () => {
   };
 
   return (
-    <Layout title="Contact Us">
-      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 space-y-6">
-          <h1 className="text-2xl font-bold text-center text-gray-700">Contact Us</h1>
-
-          {loading && <p className="text-center text-gray-500">Loading users...</p>}
-          {error && <p className="text-center text-red-500">Failed to load users.</p>}
-
-          {!loading && !error && (
-            <div className="text-center mb-4">
-              <p className="text-gray-600">Current users: {users.length}</p>
-              <ul className="text-left text-gray-600">
-                {users.map((user) => (
-                  <li key={user.id}>
-                    <span>{user.name}</span> {" → "} <span>{user.email}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+    <Layout title={"Contact Us"}>
+      <div className="flex flex-col items-center justify-center p-5 min-h-screen">
+        <div className="p-4 rounded-lg shadow-md w-full max-w-xl text-center mb-5">
+          <h1 className="text-3xl font-bold info p-3 rounded-lg">Contact Us</h1>
+          {loggedInUser && (
+            <h5 className="text-lg">Hello, {loggedInUser.userName}!</h5>
           )}
-
-          <form ref={form} onSubmit={sendEmail} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-600">Name</label>
-              <input
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="text"
-                name="name"
-                value={name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-600">Email</label>
-              <input
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="email"
-                name="email"
-                value={email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-600">Message</label>
-              <textarea
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
-                name="message"
-                value={message}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-3 text-white bg-blue-600 rounded-md font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              Send
-            </button>
-          </form>
+          {previousMessagesCount > 0 && (
+            <h6 className="text-md mt-2">You have contacted us {previousMessagesCount} times previously.</h6>
+          )}
         </div>
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="p-8 rounded-lg shadow-lg w-full max-w-xl space-y-6 border border-gray-200"
+        >
+          <div>
+            <label className="block text-lg font-semibold mb-2">Name</label>
+            <input
+              className="w-full p-3 border border-blue-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-lg font-semibold mb-2">Email</label>
+            <input
+              className="w-full p-3 border border-blue-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-lg font-semibold mb-2">Message</label>
+            <textarea
+              className="w-full p-3 border border-blue-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 h-40 resize-vertical"
+              name="message"
+              value={message}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="text-center">
+            <input
+              className="w-full py-3 bg-blue-500 font-semibold rounded-md hover:bg-blue-600 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-200"
+              type="submit"
+              value="Send"
+            />
+          </div>
+        </form>
       </div>
     </Layout>
   );
