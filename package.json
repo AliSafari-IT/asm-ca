@@ -6,6 +6,8 @@
   "proxy": "http://localhost:5146",
   "scripts": {
     "dev": "concurrently \"yarn tailwind:watch\" \"yarn custom:watch\" \"dotnet run --project WebAppMVC/WebAppMVC.csproj\" \"yarn workspace techdocs start\" --kill-others-on-fail",
+    "build": "concurrently \"yarn workspace techdocs build\" \"yarn workspace WebAppMVC build\"",
+    "clean-build": "rimraf E:\\asm-ca\\wwwroot && yarn build",
     "frontend": "concurrently  \"yarn tailwind:watch\" \"yarn custom:watch\" \"yarn workspace techdocs start\" --kill-others-on-fail",
     "watch": "concurrently \"yarn workspace techdocs\" \"dotnet watch run --project WebAppMVC/WebAppMVC.csproj\"",
     "dotnetwatchtest": "dotnet watch test --project WebAppMVC/WebAppMVC.csproj",

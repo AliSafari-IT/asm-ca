@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunktechdocs=self.webpackChunktechdocs||[]).push([[63],{9097:e=>{e.exports=JSON.parse('{"categoryGeneratedIndex":{"title":"Topics","description":"Asafarim\'s documentations.","slug":"/category/topics","permalink":"/docs/category/topics","sidebar":"tutorialSidebar","navigation":{"next":{"title":"Outline","permalink":"/docs/outlines/intro"}}}}')}}]);

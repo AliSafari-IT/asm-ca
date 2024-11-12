@@ -42,7 +42,6 @@ const config = {
   title: "DevKnowledgeBase",
   tagline: "Explore, Learn, Innovate",
   favicon: "img/favicon.ico",
-
   // Set the production url of your site here
   url: "https://asafarim.com",
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -72,9 +71,9 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             "https://github.com/AliSafari-IT/asafarim/edit/main/techdocs/",
-            remarkPlugins: [
-              [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
-            ],
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
+          ],
         },
         pages: {
           remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
@@ -86,9 +85,9 @@ const config = {
             frontMatter.hide_reading_time
               ? defaultReadingTime({ content })
               : defaultReadingTime({
-                  content,
-                  options: { wordsPerMinute: 100 },
-                }),
+                content,
+                options: { wordsPerMinute: 100 },
+              }),
           editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
             `https://github.com/AliSafari-IT/asafarim/edit/main/techdocs/${blogDirPath}/${blogPath}`,
           editLocalizedFiles: false,
@@ -121,7 +120,7 @@ const config = {
             copyright: '',
             language: undefined,
             createFeedItems: async (params) => {
-              const {blogPosts, defaultCreateFeedItems, ...rest} = params;
+              const { blogPosts, defaultCreateFeedItems, ...rest } = params;
               return defaultCreateFeedItems({
                 // keep only the 10 most recent blog posts in the feed
                 blogPosts: blogPosts.filter((item, index) => index < 10),
@@ -141,7 +140,7 @@ const config = {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "ASafariM",      
+      title: "ASafariM",
       logo: {
         alt: "DevDocsCentral Logo",
         src: "img/logoT.svg",

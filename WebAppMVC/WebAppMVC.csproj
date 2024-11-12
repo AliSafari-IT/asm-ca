@@ -5,6 +5,8 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>aspnet-WebAppMVC-secrets</UserSecretsId>
+		<!-- Define the publish output directory for the razor web app as well as backend api -->
+		<PublishDir>E:\asm-ca\wwwroot\WebAppMVC\</PublishDir>
 	</PropertyGroup>
 
 	<ItemGroup>
