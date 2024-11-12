@@ -1,1 +1,18 @@
  /* import styles from './styles.module.css'; */
+/* Link Google Fonts in your HTML head */
+@import url('https://fonts.googleapis.com/css2?family=Lora&family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+
+/* CSS Styling */
+body {
+    font-family: 'Lora', serif; /* Body font */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif; /* Heading font */
+}
+
+.accent-text {
+    font-family: 'Dancing Script', cursive; /* Optional accent font */
+}
