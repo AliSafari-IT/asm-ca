@@ -4,22 +4,29 @@
     ViewData["Title"] = "Register confirmation";
 }
 
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-        <p>Thank you for registering! A confirmation email has been sent to <strong>@Model.Email</strong>. Please confirm your email before logging in.</p>
-        <hr/>
-        <p>
-            This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-            Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-        </p>
-    }
-    else
-    {
-        <p>
-            Please check your email to confirm your account.
-        </p>
-    }
-}
-
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+        <h1 class="text-2xl font-semibold text-center mb-4">@ViewData["Title"]</h1>
+        @if (@Model.DisplayConfirmAccountLink)
+        {
+            <p class="text-center text-gray-700 mb-4">
+                Thank you for registering! A confirmation email has been sent to <strong>@Model.Email</strong>. Please confirm your email before logging in.
+            </p>
+            <hr class="my-4" />
+            <p class="text-center text-gray-600">
+                This app does not currently have a real email sender registered, ( see <a href="https://aka.ms/aspaccountconf" class="text-blue-500 hover:underline">these docs</a> for thechnical details on how to configure this).
+                <br />
+                Normally this would be emailed: 
+                <div class="mt-2 text-center shadow-sm border-t-neutral-500 text-pretty p-3">
+                    <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="text-blue-500 font-bold hover:underline  hover:bg-orange-300 hover:text-warning">Click here to confirm your account</a>
+                </div>
+            </p>
+        }
+        else
+        {
+            <p class="text-center text-gray-700">
+                Please check your email to confirm your account.
+            </p>
+        }
+    </div>
+</div>

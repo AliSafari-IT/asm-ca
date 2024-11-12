@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Repositories;
+using Infrastructure.Persistence.AsmDBContext;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -7,6 +8,7 @@ namespace Infrastructure.Persistence.Repositories
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
+        protected AppDbContext _appDbContext;
         protected DbContextProject _context;
         protected DbSet<TEntity> _dbSet;
 
@@ -14,6 +16,11 @@ namespace Infrastructure.Persistence.Repositories
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();
+        }
+        public BaseRepository(AppDbContext context)
+        {
+            _appDbContext = context;
+            _dbSet = _appDbContext.Set<TEntity>();
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -27,6 +34,9 @@ namespace Infrastructure.Persistence.Repositories
 
         public void Add(TEntity entity)
             => _context.Add(entity);
+
+        public void AddRange(IEnumerable<TEntity> entities)
+            => _context.AddRange(entities);
 
         public void Update(TEntity entity)
             => _context.Update(entity);

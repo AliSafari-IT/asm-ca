@@ -38,6 +38,7 @@ namespace Infrastructure
         {
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IAuditProcessRepository, AuditProcessRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
 
             return services;
         }
@@ -45,7 +46,7 @@ namespace Infrastructure
         public static IServiceCollection ResolveDependenciesIdentity(this IServiceCollection services)
         {
             services.AddIdentity<IdentityUser, IdentityRole>()
-            .AddEntityFrameworkStores<DbContextProject>()
+            .AddEntityFrameworkStores<DbContextProject>()            
             .AddDefaultTokenProviders();
 
             services.AddScoped<UserManager<IdentityUser>>();
