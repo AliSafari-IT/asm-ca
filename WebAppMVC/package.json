@@ -6,7 +6,8 @@
     "runapp": "node ./scripts/server.js",
     "restart": "bash ./scripts/restart.sh",
     "clean": "rimraf node_modules",
-    "watch": "dotnet watch run --project ./WebAppMVC.csproj --urls http://localhost:5146 --verbose"
+    "watch": "dotnet watch run --project ./WebAppMVC.csproj --urls http://localhost:5146 --verbose",
+    "testapp": "dotnet watch test --project ./WebAppMVC.csproj"
   },
   "devDependencies": {
   }

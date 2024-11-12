@@ -8,6 +8,7 @@
     "dev": "concurrently \"yarn tailwind:watch\" \"yarn custom:watch\" \"dotnet run --project WebAppMVC/WebAppMVC.csproj\" \"yarn workspace techdocs start\" --kill-others-on-fail",
     "frontend": "concurrently  \"yarn tailwind:watch\" \"yarn custom:watch\" \"yarn workspace techdocs start\" --kill-others-on-fail",
     "watch": "concurrently \"yarn workspace techdocs\" \"dotnet watch run --project WebAppMVC/WebAppMVC.csproj\"",
+    "dotnetwatchtest": "dotnet watch test --project WebAppMVC/WebAppMVC.csproj",
     "tailwind:watch": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/tailwind.scss -o ./WebAppMVC/wwwroot/css/site.css --watch",
     "custom:watch": "npx tailwindcss -i ./WebAppMVC/wwwroot/css/custom.scss -o ./WebAppMVC/wwwroot/css/custom.css --watch",
     "css:concurrently": "concurrently --names \"TAILWIND,CUSTOM\" \"yarn tailwind:watch\" \"yarn custom:watch\"",
@@ -21,7 +22,8 @@
     "restart:base": "bash ./scripts/restart.sh",
     "restart:basejs": "node ./scripts/restart.js",
     "restart:all": "concurrently \"yarn restart:base\" \"yarn restart:apps\"",
-    "clean": "npx rimraf node_modules"
+    "clean": "npx rimraf node_modules",
+    "testapp": "dotnet watch test --project WebAppMVC/WebAppMVC.csproj"
   },
   "workspaces": [
     "WebAppMVC",
