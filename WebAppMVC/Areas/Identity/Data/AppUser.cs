@@ -1,20 +1,31 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Identity;
-
-namespace WebAppMVC.Areas.Identity.Data;
+﻿using Microsoft.AspNetCore.Identity;
 
 
-
-public class AppUser : IdentityUser<Guid>
+namespace WebAppMVC.Areas.Identity.Data
 {
+    public class AppUser : IdentityUser<Guid>
+    {
+        public Guid Id { get; set; }
 
-    public Guid Id { get; set; }
-    public string UserName { get; set; }
-    public string? Email { get; set; }
+        private string? _email;
+        public override string? Email
+        {
+            get => _email;
+            set
+            {
+                _email = value ?? string.Empty;
+                // Update UserName whenever Email is set only if UserName is not explicitly provided
+                if (string.IsNullOrEmpty(UserName))
+                {
+                    UserName = _email?.Replace('@', '_')
+                                      .Replace('.', '_')
+                                      .Replace('+', '_');
+                }
+                SecurityStamp = Guid.NewGuid().ToString();
+            }
+        }
 
-    public bool? EmailConfirmed { get; set; }
-
-
-    // Other properties...
+        public string? FirstName { get; internal set; }
+        public string? LastName { get; internal set; }
+    }
 }
-

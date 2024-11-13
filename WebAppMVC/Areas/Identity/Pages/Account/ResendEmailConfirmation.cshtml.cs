@@ -71,21 +71,46 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = userId, code = code },
-                protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            // Ensure user properties are properly set before generating token
+            if (string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.SecurityStamp))
+            {
+                ModelState.AddModelError(string.Empty, "User properties are not properly initialized. Please contact support.");
+                return Page();
+            }
 
-            ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
-            return Page();
+            try
+            {
+                var userId = await _userManager.GetUserIdAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                if (string.IsNullOrEmpty(code))
+                {
+                    ModelState.AddModelError(string.Empty, "Failed to generate email confirmation token.");
+                    return Page();
+                }
+
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Page(
+                    "/Account/ConfirmEmail",
+                    pageHandler: null,
+                    values: new { userId = userId, code = code },
+                    protocol: Request.Scheme);
+
+                await _emailSender.SendEmailAsync(
+                    Input.Email,
+                    "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while sending confirmation email.");
+                ModelState.AddModelError(string.Empty, "An error occurred while sending the email. Please try again later.");
+                return Page();
+            }
         }
+
     }
 }

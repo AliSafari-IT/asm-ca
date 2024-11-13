@@ -1,7 +1,7 @@
 
 namespace WebAppMVC.Configurations;
 
-public static class ConfigureEnvironment
+public static class ConfigureEnvironment1
 {
     public static void Configure(WebApplicationBuilder builder)
     {

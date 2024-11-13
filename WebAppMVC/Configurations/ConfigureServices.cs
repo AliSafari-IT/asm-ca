@@ -1,12 +1,13 @@
 using Core.Entities;
 using Infrastructure.Persistence.AsmDBContext;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Areas.Identity.Data;
 
 namespace WebAppMVC.Configurations
 {
-    public class GetConfigServices
+    public class GetConfigServices1
     {
         public static void ConfigureServices(WebApplicationBuilder builder)
         {
@@ -23,7 +24,7 @@ namespace WebAppMVC.Configurations
             // Use AppDbContext for application-specific entities
             services.AddDbContext<AppDbContext>(options =>
                 options.UseMySql(defaultConnectionString, ServerVersion.AutoDetect(defaultConnectionString),
-                    mySqlOptions => 
+                    mySqlOptions =>
                         mySqlOptions.MigrationsAssembly("Infrastructure") // Specify Infrastructure as the migrations assembly
                         .EnableRetryOnFailure()
                 ));
@@ -31,6 +32,9 @@ namespace WebAppMVC.Configurations
             // Configure Identity services
             services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<WebAppMVCContext>();
+            services.AddIdentity<AppUser, IdentityRole<Guid>>()
+                    .AddEntityFrameworkStores<WebAppMVCContext>()
+                    .AddDefaultTokenProviders();
 
             // Register custom services like MessageManager
             services.AddScoped<MessageManager<Message>>();

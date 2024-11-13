@@ -1,39 +1,23 @@
 
 namespace WebAppMVC.Configurations;
 
-public static class ConfigureCors
+public static class ConfigureCors1
 {
     private static readonly string _policyName = "AllowFrontend";
 
     public static void AddPolicy(WebApplicationBuilder builder)
     {
         var services = builder.Services;
-        // Add CORS Policy
-        // builder.Services.AddCors(options =>
-        // {
-        //     options.AddPolicy(_policyName, builder =>
-        //     {
-        //         builder.WithOrigins(
-        //             "http://localhost:3000",
-        //             "https://asafarim.com",
-        //             "https://preview.asafarim.com",
-        //             "https://techdocs.asafarim.com"
-        //         )
-        //             .AllowAnyMethod()
-        //             .AllowAnyHeader();
-        //     });
-        // });
-
-        services.AddCors(options => 
-{
-    options.AddPolicy(_policyName,
-    builder =>
+        services.AddCors(options =>
             {
-                builder.WithOrigins("http://localhost:3000")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials(); // This allows cookies or credentials
-            });
+                options.AddPolicy(_policyName,
+                builder =>
+                        {
+                            builder.WithOrigins("http://localhost:3000")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials(); // This allows cookies or credentials
+                        });
             });
 
         services.AddControllersWithViews();

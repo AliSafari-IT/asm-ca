@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Areas.Identity.Data;
 
 namespace WebAppMVC.Areas.Identity.Pages.Account
@@ -20,11 +21,13 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailSender _sender;
+        private readonly ILogger<RegisterConfirmationModel> _logger;
 
-        public RegisterConfirmationModel(UserManager<AppUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<AppUser> userManager, IEmailSender sender, ILogger<RegisterConfirmationModel> logger)
         {
             _userManager = userManager;
             _sender = sender;
+            _logger = logger;
         }
 
         /// <summary>
@@ -47,21 +50,30 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
-            if (email == null)
+            if (string.IsNullOrEmpty(email))
             {
+                _logger.LogWarning("OnGetAsync called with null or empty email.");
                 return RedirectToPage("/Index");
             }
-            returnUrl = returnUrl ?? Url.Content("~/");
 
-            var user = await _userManager.FindByEmailAsync(email);
+            returnUrl ??= Url.Content("~/");
+
+            // Normalize email and log it
+            var normalizedEmail = _userManager.NormalizeEmail(email);
+            _logger.LogInformation("Attempting to load user with normalized email: {NormalizedEmail}", normalizedEmail);
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedEmail == normalizedEmail);
             if (user == null)
             {
+                _logger.LogWarning("Unable to load user with email '{Email}'.", email);
                 return NotFound($"Unable to load user with email '{email}'.");
             }
 
             Email = email;
+
             // Once you add a real email sender, you should remove this code that lets you confirm the account
             DisplayConfirmAccountLink = true;
+
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
@@ -76,5 +88,6 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
 
             return Page();
         }
+
     }
 }

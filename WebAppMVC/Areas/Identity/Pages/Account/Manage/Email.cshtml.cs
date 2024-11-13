@@ -153,12 +153,13 @@ namespace WebAppMVC.Areas.Identity.Pages.Account.Manage
 
             var userId = await _userManager.GetUserIdAsync(user);
             var email = await _userManager.GetEmailAsync(user);
+            var userName = await _userManager.GetUserNameAsync(user) ?? email;
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code },
+                values: new { area = "Identity", userId = userId, code = code, userName = userName, email = email },
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,

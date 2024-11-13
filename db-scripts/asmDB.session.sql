@@ -13,14 +13,24 @@
 
 
 use asmdb;
+DELETE FROM `asmdb`.`aspnetusers` WHERE (`Id` = '08dd035e-7a93-4855-8e94-94eeed367dc8');
+DELETE FROM `asmdb`.`aspnetusers` WHERE (`Id` = '08dd035c-6644-4b9d-8cac-4bbb821d0453');
 
--- SHow tables
--- show tables;
+UPDATE `asmdb`.`aspnetusers` SET `EmailConfirmed` = 1 WHERE (`EmailConfirmed` = 0);
+
+show databases;
+show tables;
+
+select * from aspnetusers;
+
+-- Delete all items from the table Accounts
+DELETE FROM `Accounts`;
+Delete from `aspnetusers`;
 
 -- DROP TABLE Accounts;
 
-INSERT INTO `Accounts` (`Id`, `Email`, `FirstName`, `LastName`, `Password`) VALUES
-(1, 'r8BdI@example.com', 'joe', 'smith', 'password'),
-(2, 'mzK0t@example.com', 'jane', 'doe', 'password'),
-(3, 'QvV0X@example.com', 'jane', 'doe', 'password'),
-(4, 'QvVsX@example.com', 'melaene', 'doekezo', 'password');
+-- INSERT INTO `Accounts` (`Id`, `Email`, `FirstName`, `LastName`, `Password`) VALUES
+-- (1, 'r8BdI@example.com', 'joe', 'smith', 'password'),
+-- (2, 'mzK0t@example.com', 'jane', 'doe', 'password'),
+-- (3, 'QvV0X@example.com', 'jane', 'doe', 'password'),
+-- (4, 'QvVsX@example.com', 'melaene', 'doekezo', 'password');

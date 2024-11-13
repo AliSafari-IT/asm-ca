@@ -69,52 +69,71 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return Page();
+                // Find the user by email
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
+                // Check if email is confirmed
+                if (!user.EmailConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, "You need to confirm your email before logging in.");
+                    return Page();
+                }
+
+                // Ensure critical user properties are not null
+                if (string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.UserName))
+                {
+                    _logger.LogError("User properties are not properly initialized. Email: {Email}, UserName: {UserName}", user.Email, user.UserName);
+                    ModelState.AddModelError(string.Empty, "Invalid user properties. Please contact support.");
+                    return Page();
+                }
+
+                // Check if the user is locked out
+                if (await _userManager.IsLockedOutAsync(user))
+                {
+                    ModelState.AddModelError(string.Empty, "Your account has been locked. Please try again later.");
+                    return Page();
+                }
+
+                // Attempt to sign in
+                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User logged in successfully.");
+                    return LocalRedirect(returnUrl);
+                }
+                else if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                }
+                else if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToPage("./Lockout");
+                }
+                else
+                {
+                    _logger.LogWarning("Invalid login attempt for user: {Email}", Input.Email);
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
             }
 
-            // Attempt to sign in
-            var user = await _userManager.FindByEmailAsync(Input.Email);
-            if (user == null)
-            {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt. Check your credentials and try again.");
-                return Page();
-            }
-
-            // Check if email is confirmed
-            if (!await _userManager.IsEmailConfirmedAsync(user))
-            {
-                ModelState.AddModelError(string.Empty, "Email not confirmed. Check your email for the confirmation link.");
-                return Page();
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User logged in.");
-                return LocalRedirect(returnUrl);
-            }
-            else if (result.RequiresTwoFactor)
-            {
-                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
-            }
-            else if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User account locked out.");
-                return RedirectToPage("./Lockout");
-            }
-
-            // Fallback for invalid login
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            // If we got this far, something failed, redisplay form
             return Page();
         }
+
+
     }
 }

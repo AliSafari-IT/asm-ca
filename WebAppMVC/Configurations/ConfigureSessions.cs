@@ -1,6 +1,6 @@
 ﻿namespace WebAppMVC.Configurations
 {
-    internal class ConfigureSessions
+    internal class ConfigureSessions1
     {
 
         public static void Configure(WebApplicationBuilder builder)

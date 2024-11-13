@@ -32,13 +32,24 @@
                 <span asp-validation-for="Input.LastName" class="text-red-500 text-sm mt-1"></span>
             </div>
 
-            <!-- Email -->
-            <div class="mb-4">
-                <label asp-for="Input.Email" class="block text-sm font-medium text-gray-600">Email</label>
+            <!-- Email  & UserName-->
+            <div class="mb-4 flex flex-col md:flex-row md:space-x-4">
+                <div>
+                    <label asp-for="Input.Email" class="block text-sm font-medium text-gray-600">Email</label>
                 <input asp-for="Input.Email" type="email"
                     class="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     placeholder="name@example.com" required />
                 <span asp-validation-for="Input.Email" class="text-red-500 text-sm mt-1"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.UserName" class="block text-sm font-medium text-gray-600">User Name</label>
+                <input asp-for="Input.UserName"
+                    class="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="User Name" />
+                <span asp-validation-for="Input.UserName" class="text-red-500 text-sm mt-1"></span>
+                </div>
+                
             </div>
 
             <!-- Password -->
