@@ -24,3 +24,6 @@ INSERT INTO `Accounts` (`Id`, `Email`, `FirstName`, `LastName`, `Password`) VALU
 (2, 'mzK0t@example.com', 'jane', 'doe', 'password'),
 (3, 'QvV0X@example.com', 'jane', 'doe', 'password'),
 (4, 'QvVsX@example.com', 'melaene', 'doekezo', 'password');
+
+
+UPDATE aspnetusers SET EmailConfirmed = 1 WHERE EmailConfirmed = 0;

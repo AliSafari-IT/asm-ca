@@ -78,7 +78,9 @@ namespace WebAppMVC.Areas.Identity.Pages.Account
                 var user = new AppUser
                 {
                     Email = Input.Email,
-                    UserName = Input.Email
+                    UserName = Input.Email.Split('@')[0].Replace(".", ""),
+                    FirstName = Input.FirstName, 
+                    LastName = Input.LastName
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
