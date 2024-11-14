@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppMVC.Areas.Identity.Data;
 
@@ -11,9 +12,11 @@ using WebAppMVC.Areas.Identity.Data;
 namespace WebAppMVC.Migrations
 {
     [DbContext(typeof(WebAppMVCContext))]
-    partial class WebAppMVCContextModelSnapshot : ModelSnapshot
+    [Migration("20241114225224_UserName")]
+    partial class UserName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
