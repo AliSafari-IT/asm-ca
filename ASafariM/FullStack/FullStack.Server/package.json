@@ -1,0 +1,14 @@
+{
+  "name": "FullStack-Server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ali",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist",
+    "start": "dotnet run --project FullStack.Server.csproj",
+    "build": "yarn clean && dotnet build -c Release --project FullStack.Server.csproj",
+    "test": "dotnet test --project FullStack.Server.csproj"
+  }
+}

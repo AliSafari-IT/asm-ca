@@ -9,7 +9,8 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "docusaurus build && mkdir -p E:\\asm-ca\\wwwroot\\techdocs && cp -R build/* E:\\asm-ca\\wwwroot\\techdocs",
+    "buildcommand": "docusaurus build && mkdir -p E:\\asm-ca\\wwwroot\\techdocs && cp -R build/* E:\\asm-ca\\wwwroot\\techdocs",
+    "build": "yarn clean && docusaurus buildcommand",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -19,7 +20,7 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "restart": "bash ./scripts/restart.sh",
-    "clean": "npx rimraf node_modules",
+    "clean": "npx rimraf node_modules && npx rimraf package-lock.json && npx rimraf yarn.lock && npx rimraf .yarn/cache && npx rimraf build && npx rimraf dist",
     "upgrade:docusaurus": "bash ./scripts/upgrade-docusaurus.sh"
   },
   "dependencies": {

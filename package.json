@@ -7,6 +7,12 @@
   "scripts": {
     "watch": "concurrently \"yarn frontend\" \"dotnet watch run --project WebAppMVC/WebAppMVC.csproj\"",
     "build": "concurrently \"yarn workspace techdocs build\" \"yarn workspace WebAppMVC build\"",
+    "fullstack:build": "concurrently \"yarn workspace techdocs build\" \"yarn workspace WebAppMVC build\" \"yarn workspace fullstack-client build\"",
+    "publish:server": "cross-env BUILD_OUTPUT=./ASafariM/FullStack/dist/FullStack.Server PROJECT_PATH=./ASafariM/FullStack/FullStack.Server/FullStack.Server.csproj dotnet publish --output $BUILD_OUTPUT $PROJECT_PATH",
+    "fullstack:build:all": "yarn fullstack:build && yarn publish:server",
+    "fullstack:run": "concurrently \"yarn workspace techdocs start\" \"yarn workspace WebAppMVC start\" \"yarn workspace fullstack-client start\" \"yarn workspace FullStack-Server start\"",
+    "fullstack:build2": "concurrently \"yarn workspace techdocs build\" \"yarn workspace WebAppMVC build\" \"yarn workspace fullstack-client build\" \"dotnet publish --output E:\\asm-ca\\ASafariM\\FullStack\\dist\\FullStack.Server E:\\asm-ca\\ASafariM\\FullStack\\FullStack.Server\\FullStack.Server.csproj\"",
+    "fullstack:watch": "concurrently \"yarn workspace techdocs start\" \"yarn workspace WebAppMVC start\" \"yarn workspace fullstack-client start\" \"yarn workspace FullStack-Server start\"",
     "clean-build": "rimraf E:\\asm-ca\\wwwroot && yarn build",
     "frontend": "concurrently  \"yarn tailwind:watch\" \"yarn custom:watch\" \"yarn workspace techdocs start\" --kill-others-on-fail",
     "backend": "dotnet watch run --project WebAppMVC/WebAppMVC.csproj",
@@ -28,7 +34,9 @@
   },
   "workspaces": [
     "WebAppMVC",
-    "ASafariM/Frontends/techdocs"
+    "ASafariM/Frontends/techdocs",
+    "ASafariM/FullStack/fullstack.client",
+    "ASafariM/FullStack/FullStack.Server"
   ],
   "devDependencies": {
     "@types/node": "^22.8.7",
